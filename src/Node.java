@@ -1,6 +1,6 @@
 import java.util.UUID;
 
-public class Node {
+public class Node implements Cloneable {
 
     public static final int MAX_LINKS = 10;
 
@@ -50,7 +50,8 @@ public class Node {
     public void setNumLinks(int numLinks) {
         this.numLinks = numLinks;
     }
-    
+
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Node otherNode))
             return false;
@@ -60,6 +61,15 @@ public class Node {
             if (this.links[i] != otherNode.links[i])
                 return false;
         return this.data.equals(otherNode.data);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Node clonedNode = (Node) super.clone();
+        clonedNode.links = new Node[MAX_LINKS];
+        if (this.numLinks >= 0)
+            System.arraycopy(this.links, 0, clonedNode.links, 0, this.numLinks);
+        return clonedNode;
     }
 
     @Override

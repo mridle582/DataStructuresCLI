@@ -1,4 +1,4 @@
-public class NodeArray {
+public class NodeArray implements Cloneable{
 
     public static final int MAX_NODES = 10;
     
@@ -61,10 +61,19 @@ public class NodeArray {
         if (index < 0 || index > size)
             throw new ArrayIndexOutOfBoundsException("NodeArray - Delete: Invalid Index");
         Node oldNode = contents[index];
-        for (int i = index; i < size-2; i++)
+        for (int i = index; i < size-1; i++)
             contents[i] = contents[i+1];
         size--;
         return oldNode;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        NodeArray clonedNodeArray = (NodeArray) super.clone();
+        clonedNodeArray.setContents(new Node[MAX_NODES]);
+        for (int i = 0; i < size; i++)
+            clonedNodeArray.contents[i] = (Node) this.contents[i].clone();
+        return clonedNodeArray;
     }
 
     @Override
